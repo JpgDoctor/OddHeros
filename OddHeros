@@ -5,12 +5,14 @@ settings
 		Description: "Discord= https://discord.gg/7jJ9FCfN | Code = MG2TN | Made by = iiAzui#1411/Its_Jpg#9929"
 		Mode Name: "Odd Heros"
 	}
+
 	lobby
 	{
 		Match Voice Chat: Enabled
 		Max Team 1 Players: 5
 		Max Team 2 Players: 5
 	}
+
 	modes
 	{
 		Team Deathmatch
@@ -27,6 +29,7 @@ settings
 			}
 		}
 	}
+
 	heroes
 	{
 		General
@@ -42,515 +45,687 @@ settings
 		}
 	}
 }
-variables {
-    global:
-        0: A
-        3: D
-        5: F
-    player:
-        0: Var1
-        1: B
-        2: C
-        3: D
-        6: G
-        7: HUD1
-        8: HUD2
-        9: HUD3
-        10: HUD4
-        11: HUD5
-        12: HUD6
-        13: HUD7
-        14: herochange
-}
-rule ("OverPy Map Detection") {
-    event {
-        Ongoing - Global;
-    }
-    actions {
-        If(Array Contains(Array(Map(Ayutthaya), Map(Black Forest), 2148, Map(Blizzard World), 1228, Map(Busan), 3206, -6860, Map(Castillo), Map(Château Guillard), 3439, Map(Circuit Royal), Map(Colosseo), Map(Dorado), Map(Ecopoint: Antarctica), Map(Eichenwalde), 565, Map(Esperança), Map(Hanamura), 1848, Map(Havana), Map(Hollywood), Map(Horizon Lunar Colony), Map(Ilios), 1459, 8669, -2957, Map(Junkenstein's Revenge), Map(Junkertown), Map(Kanezaka), Map(King's Row), 742, Map(Lijiang Control Center), 28714, Map(Lijiang Garden), 4714, Map(Lijiang Night Market), -1429, Map(Lijiang Tower), 3676, Map(Malevento), Map(Midtown), Map(Necropolis), Map(Nepal), -11860, 1362, -9677, Map(New Queen Street), Map(Numbani), Map(Oasis), 6920, 2159, 345, Map(Paraíso), Map(Paris), Map(Petra), Map(Practice Range), Map(Rialto), Map(Route 66), Map(Temple of Anubis), Map(Volskaya Industries), Map(Watchpoint: Gibraltar), Map(Workshop Chamber), Map(Workshop Expanse), 96, Map(Workshop Green Screen), Map(Workshop Island), 196), Global.F));
-            Set Global Variable(D, Global.F);
-            Abort;
-        End;
-        Set Global Variable(D, Ray Cast Hit Position(Vector(500, 100, 500), Vector(-500, -100, -500), Null, Null, False));
-        If(Or(Compare(Global.D, ==, Vector(0, 0, 0)), Compare(Global.D, ==, Vector(-500, -100, -500))));
-            Set Global Variable(D, Ray Cast Hit Position(Vector(30, 5, 0), Vector(-30, -10, -10), Null, Null, False));
-            If(Compare(Global.D, ==, Vector(-30, -10, -10)));
-                Set Global Variable(D, Ray Cast Hit Position(Vector(200, 20, 100), Vector(100, -100, -100), Null, Null, False));
-                If(Compare(Global.D, ==, Vector(100, -100, -100)));
-                    Set Global Variable(D, Ray Cast Hit Position(Vector(300, 20, -100), Vector(300, -100, 100), Null, Null, False));
-                    If(Compare(Global.D, ==, Vector(300, -100, 100)));
-                        Set Global Variable(D, Ray Cast Hit Position(Vector(50, 100, -150), Vector(-50, -100, -160), Null, Null, False));
-                        If(Compare(Global.D, ==, Vector(-50, -100, -160)));
-                            Set Global Variable(D, Ray Cast Hit Position(Vector(0, 300, 340), Vector(0, -100, -300), Null, Null, False));
-                            If(Compare(Global.D, ==, Vector(0, -100, -300)));
-                                Set Global Variable(D, Ray Cast Hit Position(Vector(140, 10, -240), Vector(200, -10, -300), Null, Null, False));
-                                If(Compare(Global.D, ==, Vector(200, -10, -300)));
-                                    Set Global Variable(D, Ray Cast Hit Position(Vector(-180, 30, 60), Vector(-180, -50, -60), Null, Null, False));
-                                End;
-                            End;
-                        End;
-                    End;
-                End;
-            End;
-        End;
-        Set Global Variable(D, Add(Add(Multiply(100, Round To Integer(Y Component Of(Global.D), Up)), Multiply(10, Round To Integer(X Component Of(Global.D), To Nearest))), Round To Integer(Z Component Of(Global.D), Down)));
-        If(Compare(Global.D, ==, 10121));
-            Set Global Variable(D, Ray Cast Hit Position(Vector(-60, 20, -60), Vector(60, -10, 60), Null, Null, False));
-            If(Compare(Global.D, ==, Vector(60, -10, 60)));
-                Set Global Variable(D, Ray Cast Hit Position(Vector(-180, -70, 60), Vector(-180, -100, -60), Null, Null, False));
-            End;
-            Set Global Variable(D, Add(Add(Multiply(100, Round To Integer(Y Component Of(Global.D), Up)), Multiply(10, Round To Integer(X Component Of(Global.D), To Nearest))), Round To Integer(Z Component Of(Global.D), Down)));
-    }
+
+variables
+{
+	global:
+		0: A
+		3: D
+		5: F
+
+	player:
+		0: Var1
+		1: B
+		2: C
+		3: D
+		6: G
+		7: HUD1
+		8: HUD2
+		9: HUD3
+		10: HUD4
+		11: HUD5
+		12: HUD6
+		13: HUD7
+		14: herochange
 }
 
-rule ("herochange") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Has Spawned(Event Player) == True;
-    }
-    actions {
-        Wait(0.25, Ignore Condition);
-        Set Player Variable(Event Player, herochange, Hero Of(Event Player));
-    }
+rule("OverPy Map Detection")
+{
+	event
+	{
+		Ongoing - Global;
+	}
+
+	actions
+	{
+		If(Array Contains(Array(Map(Ayutthaya), Map(Black Forest), 2148, Map(Blizzard World), 1228, Map(Busan), 3206, -6860, Map(Castillo),
+			Map(Château Guillard), 3439, Map(Circuit royal), Map(Colosseo), Map(Dorado), Map(Ecopoint: Antarctica), Map(Eichenwalde), 565,
+			Map(Esperança), Map(Hanamura), 1848, Map(Havana), Map(Hollywood), Map(Horizon Lunar Colony), Map(Ilios), 1459, 8669, -2957,
+			Map(Junkenstein's Revenge), Map(Junkertown), Map(Kanezaka), Map(King's Row), 742, Map(Lijiang Control Center), 28714, Map(
+			Lijiang Garden), 4714, Map(Lijiang Night Market), -1429, Map(Lijiang Tower), 3676, Map(Malevento), Map(Midtown), Map(
+			Necropolis), Map(Nepal), -11860, 1362, -9677, Map(New Queen Street), Map(Numbani), Map(Oasis), 6920, 2159, 345, Map(Paraíso),
+			Map(Paris), Map(Petra), Map(Practice Range), Map(Rialto), Map(Route 66), Map(Temple of Anubis), Map(Volskaya Industries), Map(
+			Watchpoint: Gibraltar), Map(Workshop Chamber), Map(Workshop Expanse), 96, Map(Workshop Green Screen), Map(Workshop Island),
+			196), Global.F));
+			Global.D = Global.F;
+			Abort;
+		End;
+		Global.D = Ray Cast Hit Position(Vector(500, 100, 500), Vector(-500, -100, -500), Null, Null, False);
+		If(Global.D == Vector(0, 0, 0) || Global.D == Vector(-500, -100, -500));
+			Global.D = Ray Cast Hit Position(Vector(30, 5, 0), Vector(-30, -10, -10), Null, Null, False);
+			If(Global.D == Vector(-30, -10, -10));
+				Global.D = Ray Cast Hit Position(Vector(200, 20, 100), Vector(100, -100, -100), Null, Null, False);
+				If(Global.D == Vector(100, -100, -100));
+					Global.D = Ray Cast Hit Position(Vector(300, 20, -100), Vector(300, -100, 100), Null, Null, False);
+					If(Global.D == Vector(300, -100, 100));
+						Global.D = Ray Cast Hit Position(Vector(50, 100, -150), Vector(-50, -100, -160), Null, Null, False);
+						If(Global.D == Vector(-50, -100, -160));
+							Global.D = Ray Cast Hit Position(Vector(0, 300, 340), Vector(0, -100, -300), Null, Null, False);
+							If(Global.D == Vector(0, -100, -300));
+								Global.D = Ray Cast Hit Position(Vector(140, 10, -240), Vector(200, -10, -300), Null, Null, False);
+								If(Global.D == Vector(200, -10, -300));
+									Global.D = Ray Cast Hit Position(Vector(-180, 30, 60), Vector(-180, -50, -60), Null, Null, False);
+								End;
+							End;
+						End;
+					End;
+				End;
+			End;
+		End;
+		Global.D = 100 * Round To Integer(Y Component Of(Global.D), Up) + 10 * Round To Integer(X Component Of(Global.D), To Nearest)
+			+ Round To Integer(Z Component Of(Global.D), Down);
+		If(Global.D == 10121);
+			Global.D = Ray Cast Hit Position(Vector(-60, 20, -60), Vector(60, -10, 60), Null, Null, False);
+			If(Global.D == Vector(60, -10, 60));
+				Global.D = Ray Cast Hit Position(Vector(-180, -70, 60), Vector(-180, -100, -60), Null, Null, False);
+			End;
+			Global.D = 100 * Round To Integer(Y Component Of(Global.D), Up) + 10 * Round To Integer(X Component Of(Global.D), To Nearest)
+				+ Round To Integer(Z Component Of(Global.D), Down);
+	}
 }
 
-rule ("herochange") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).herochange != Hero Of(Event Player);
-    }
-    actions {
-        Wait(0.25, Ignore Condition);
-        Set Player Variable(Event Player, herochange, Hero Of(Event Player));
-    }
+rule("herochange")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		All;
+	}
+
+	conditions
+	{
+		Has Spawned(Event Player) == True;
+	}
+
+	actions
+	{
+		Wait(0.250, Ignore Condition);
+		Event Player.herochange = Hero Of(Event Player);
+	}
 }
 
-rule ("herochange del") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).herochange != Hero Of(Event Player);
-    }
-    actions {
-        Wait(0.1, Ignore Condition);
-        Destroy HUD Text((Event Player).HUD1);
-        Destroy HUD Text((Event Player).HUD2);
-        Destroy HUD Text((Event Player).HUD3);
-        Destroy HUD Text((Event Player).HUD4);
-        Destroy HUD Text((Event Player).HUD5);
-        Destroy HUD Text((Event Player).HUD6);
-        Destroy HUD Text((Event Player).HUD7);
-        Set Move Speed(Event Player, 100);
-        Allow Button(Event Player, Button(Ultimate));
-        Allow Button(Event Player, Button(Ability 1));
-        Allow Button(Event Player, Button(Ability 2));
-        Allow Button(Event Player, Button(Primary Fire));
-        Allow Button(Event Player, Button(Secondary Fire));
-    }
+rule("herochange")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		All;
+	}
+
+	conditions
+	{
+		Event Player.herochange != Hero Of(Event Player);
+	}
+
+	actions
+	{
+		Wait(0.250, Ignore Condition);
+		Event Player.herochange = Hero Of(Event Player);
+	}
 }
 
-rule ("maps") {
-    event {
-        Ongoing - Global;
-    }
-    actions {
-        If(Compare(Global.D, ==, Map(Blizzard World)));
-            Set Global Variable(A, Vector(-51, 57, 92));
-        Else If(Compare(Global.D, ==, 1228));
-            Set Global Variable(A, Vector(-51, 57, 92));
-        Else If(Compare(Global.D, ==, Map(Castillo)));
-            Set Global Variable(A, Vector(-102, 80, 58));
-        Else If(Compare(Global.D, ==, Map(Eichenwalde)));
-            Set Global Variable(A, Vector(64, 48, -76));
-        Else If(Compare(Global.D, ==, 565));
-            Set Global Variable(A, Vector(64, 48, -76));
-        Else If(Compare(Global.D, ==, Map(Château Guillard)));
-            Set Global Variable(A, Vector(194, 90, 80));
-        Else If(Compare(Global.D, ==, 3439));
-            Set Global Variable(A, Vector(194, 90, 80));
-        Else;
-            Set Global Variable(A, Vector(0, 50, 0));
-    }
+rule("herochange del")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		All;
+	}
+
+	conditions
+	{
+		Event Player.herochange != Hero Of(Event Player);
+	}
+
+	actions
+	{
+		Wait(0.100, Ignore Condition);
+		Destroy HUD Text(Event Player.HUD1);
+		Destroy HUD Text(Event Player.HUD2);
+		Destroy HUD Text(Event Player.HUD3);
+		Destroy HUD Text(Event Player.HUD4);
+		Destroy HUD Text(Event Player.HUD5);
+		Destroy HUD Text(Event Player.HUD6);
+		Destroy HUD Text(Event Player.HUD7);
+		Set Move Speed(Event Player, 100);
+		Allow Button(Event Player, Button(Ultimate));
+		Allow Button(Event Player, Button(Ability 1));
+		Allow Button(Event Player, Button(Ability 2));
+		Allow Button(Event Player, Button(Primary Fire));
+		Allow Button(Event Player, Button(Secondary Fire));
+	}
 }
 
-disabled rule ("dummy bot maker") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Is Button Held(Event Player, Button(Interact)) == True;
-    }
-    actions {
-        Create Dummy Bot(Hero(Mercy), Opposite Team Of(Team Of(Event Player)), -1, Event Player, Event Player);
-    }
+rule("maps")
+{
+	event
+	{
+		Ongoing - Global;
+	}
+
+	actions
+	{
+		If(Global.D == Map(Blizzard World));
+			Global.A = Vector(-51, 57, 92);
+		Else If(Global.D == 1228);
+			Global.A = Vector(-51, 57, 92);
+		Else If(Global.D == Map(Castillo));
+			Global.A = Vector(-102, 80, 58);
+		Else If(Global.D == Map(Eichenwalde));
+			Global.A = Vector(64, 48, -76);
+		Else If(Global.D == 565);
+			Global.A = Vector(64, 48, -76);
+		Else If(Global.D == Map(Château Guillard));
+			Global.A = Vector(194, 90, 80);
+		Else If(Global.D == 3439);
+			Global.A = Vector(194, 90, 80);
+		Else;
+			Global.A = Vector(0, 50, 0);
+	}
 }
 
-rule ("Kiriko Huds") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Kiriko;
-    }
-    actions {
-        Wait(0.25, Ignore Condition);
-        Set Player Variable(Event Player, Var1, 75);
-        Create HUD Text(Event Player, Custom String("Healing Dealt %", Null, Null, Null), Custom String("", Null, Null, Null), Custom String("{0}", (Event Player).Var1, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD1, Last Text ID);
-        Create HUD Text(Event Player, Custom String("Kunai", Null, Null, Null), Custom String("", Null, Null, Null), Custom String("Increase Healing Dealt by damage/100", Null, Null, Null), Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD2, Last Text ID);
-        Disallow Button(Event Player, Button(Ability 1));
-        Create HUD Text(Event Player, Custom String("Swift Step:", Null, Null, Null), Custom String("", Null, Null, Null), Custom String("Teleport anywhere on the map", Null, Null, Null), Left, 3, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD3, Last Text ID);
-    }
+disabled rule("dummy bot maker")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		All;
+	}
+
+	conditions
+	{
+		Is Button Held(Event Player, Button(Interact)) == True;
+	}
+
+	actions
+	{
+		Create Dummy Bot(Hero(Mercy), Opposite Team Of(Team Of(Event Player)), -1, Event Player, Event Player);
+	}
 }
 
-rule ("Kiriko heal increase") {
-    event {
-        Player Dealt Damage;
-        All;
-        Kiriko;
-    }
-    actions {
-        Modify Player Variable(Event Player, Var1, Add, Divide(Event Damage, 100));
-        Set Healing Dealt(Event Player, (Event Player).Var1);
-    }
+rule("Kiriko Huds")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Kiriko;
+	}
+
+	actions
+	{
+		Wait(0.250, Ignore Condition);
+		Event Player.Var1 = 75;
+		Create HUD Text(Event Player, Custom String("Healing Dealt %"), Custom String(""), Custom String("{0}", Event Player.Var1), Left,
+			0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD1 = Last Text ID;
+		Create HUD Text(Event Player, Custom String("Kunai"), Custom String(""), Custom String("Increase Healing Dealt by damage/100"),
+			Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD2 = Last Text ID;
+		Disallow Button(Event Player, Button(Ability 1));
+		Create HUD Text(Event Player, Custom String("Swift Step:"), Custom String(""), Custom String("Teleport anywhere on the map"), Left,
+			3, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD3 = Last Text ID;
+	}
 }
 
-rule ("Kiriko TELE") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Kiriko;
-    }
-    conditions {
-        Is Button Held(Event Player, Button(Ability 1)) == True;
-        Ability Cooldown(Event Player, Button(Ability 1)) == 0;
-    }
-    actions {
-        Create Effect(All Players(All Teams), Sphere, Team Of(Event Player), Position Of(Event Player), 3, Visible To Position and Radius);
-        Set Player Variable(Event Player, G, Last Created Entity);
-        Start Forcing Player Position(Event Player, Position Of(Event Player), False);
-        Wait(0.5, Ignore Condition);
-        Stop Forcing Player Position(Event Player);
-        Destroy Effect((Event Player).G);
-        Set Ability Cooldown(Event Player, Button(Ability 1), 30);
-        Teleport(Event Player, Global.A);
-        Disallow Button(Event Player, Button(Secondary Fire));
-        Disallow Button(Event Player, Button(Melee));
-        Disallow Button(Event Player, Button(Primary Fire));
-        Start Forcing Player Position(Event Player, Position Of(Event Player), True);
-        Big Message(Event Player, Custom String("hold primary fire to teleport to where you're aiming", Null, Null, Null));
-        Big Message(Event Player, Custom String("or wait 10 seconds", Null, Null, Null));
-        Create Effect(All Players(All Teams), Sparkles, Team Of(Event Player), Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 999)), Null, All Players(All Teams), True), 2, Visible To Position and Radius);
-        Set Player Variable(Event Player, G, Last Created Entity);
-        Wait Until(Is Button Held(Event Player, Button(Primary Fire)), 10);
-        Stop Forcing Player Position(Event Player);
-        Teleport(Event Player, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 999)), Null, All Players(All Teams), True));
-        Wait(0.25, Ignore Condition);
-        If(Not(Is On Ground(Event Player)));
-            Teleport(Event Player, Nearest Walkable Position(Global.A));
-        End;
-        Allow Button(Event Player, Button(Primary Fire));
-        Allow Button(Event Player, Button(Secondary Fire));
-        Allow Button(Event Player, Button(Melee));
-        Destroy Effect((Event Player).G);
-        If(Compare(Global.D, ==, Map(Blizzard World)));
-            If(Compare(X Component Of(Position Of(Event Player)), >, -10));
-                Teleport(Event Player, Nearest Walkable Position(Global.A));
-            End;
-        End;
-        If(Compare(Global.D, ==, 1228));
-            If(Compare(X Component Of(Position Of(Event Player)), >, -10));
-                Teleport(Event Player, Nearest Walkable Position(Global.A));
-            End;
-        End;
-        If(Compare(Global.D, ==, Map(Eichenwalde)));
-            If(Compare(X Component Of(Position Of(Event Player)), <, 28));
-                Teleport(Event Player, Nearest Walkable Position(Global.A));
-            End;
-        End;
-        If(Compare(Global.D, ==, 565));
-            If(Compare(X Component Of(Position Of(Event Player)), <, 28));
-                Teleport(Event Player, Nearest Walkable Position(Global.A));
-    }
+rule("Kiriko heal increase")
+{
+	event
+	{
+		Player Dealt Damage;
+		All;
+		Kiriko;
+	}
+
+	actions
+	{
+		Event Player.Var1 += Event Damage / 100;
+		Set Healing Dealt(Event Player, Event Player.Var1);
+	}
 }
 
-rule ("Reaper: THE GRIM (+ huds)") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Reaper;
-    }
-    actions {
-        Wait(0.25, Ignore Condition);
-        Create HUD Text(Event Player, Custom String("Passive:", Null, Null, Null), Null, Custom String("See recently hurt players", Null, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD1, Last Text ID);
-        Create HUD Text(Event Player, Custom String("Wraith Form:", Null, Null, Null), Null, Custom String("Go completely invisible", Null, Null, Null), Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD2, Last Text ID);
-    }
+rule("Kiriko TELE")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Kiriko;
+	}
+
+	conditions
+	{
+		Is Button Held(Event Player, Button(Ability 1)) == True;
+		Ability Cooldown(Event Player, Button(Ability 1)) == 0;
+	}
+
+	actions
+	{
+		Create Effect(All Players(All Teams), Sphere, Team Of(Event Player), Position Of(Event Player), 3, Visible To Position and Radius);
+		Event Player.G = Last Created Entity;
+		Start Forcing Player Position(Event Player, Position Of(Event Player), False);
+		Wait(0.500, Ignore Condition);
+		Stop Forcing Player Position(Event Player);
+		Destroy Effect(Event Player.G);
+		Set Ability Cooldown(Event Player, Button(Ability 1), 30);
+		Teleport(Event Player, Global.A);
+		Disallow Button(Event Player, Button(Secondary Fire));
+		Disallow Button(Event Player, Button(Melee));
+		Disallow Button(Event Player, Button(Primary Fire));
+		Start Forcing Player Position(Event Player, Position Of(Event Player), True);
+		Big Message(Event Player, Custom String("hold primary fire to teleport to where you're aiming"));
+		Big Message(Event Player, Custom String("or wait 10 seconds"));
+		Create Effect(All Players(All Teams), Sparkles, Team Of(Event Player), Ray Cast Hit Position(Eye Position(Event Player),
+			Eye Position(Event Player) + Facing Direction Of(Event Player) * 999, Null, All Players(All Teams), True), 2,
+			Visible To Position and Radius);
+		Event Player.G = Last Created Entity;
+		Wait Until(Is Button Held(Event Player, Button(Primary Fire)), 10);
+		Stop Forcing Player Position(Event Player);
+		Teleport(Event Player, Ray Cast Hit Position(Eye Position(Event Player), Eye Position(Event Player) + Facing Direction Of(
+			Event Player) * 999, Null, All Players(All Teams), True));
+		Wait(0.250, Ignore Condition);
+		If(!Is On Ground(Event Player));
+			Teleport(Event Player, Nearest Walkable Position(Global.A));
+		End;
+		Allow Button(Event Player, Button(Primary Fire));
+		Allow Button(Event Player, Button(Secondary Fire));
+		Allow Button(Event Player, Button(Melee));
+		Destroy Effect(Event Player.G);
+		If(Global.D == Map(Blizzard World));
+			If(X Component Of(Position Of(Event Player)) > -10);
+				Teleport(Event Player, Nearest Walkable Position(Global.A));
+			End;
+		End;
+		If(Global.D == 1228);
+			If(X Component Of(Position Of(Event Player)) > -10);
+				Teleport(Event Player, Nearest Walkable Position(Global.A));
+			End;
+		End;
+		If(Global.D == Map(Eichenwalde));
+			If(X Component Of(Position Of(Event Player)) < 28);
+				Teleport(Event Player, Nearest Walkable Position(Global.A));
+			End;
+		End;
+		If(Global.D == 565);
+			If(X Component Of(Position Of(Event Player)) < 28);
+				Teleport(Event Player, Nearest Walkable Position(Global.A));
+	}
 }
 
-rule ("Reaper Pa﻿ssive") {
-    event {
-        Player Took Damage;
-        All;
-        All;
-    }
-    actions {
-        Start Forcing Player Outlines(Event Player, Players On Hero(Hero(Reaper), Opposite Team Of(Team Of(Event Player))), True, Color(Red), Always);
-        Wait(5, Ignore Condition);
-        Stop Forcing Player Outlines(Event Player, Players On Hero(Hero(Reaper), Opposite Team Of(Team Of(Event Player))));
-    }
+rule("Reaper: THE GRIM (+ huds)")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Reaper;
+	}
+
+	actions
+	{
+		Wait(0.250, Ignore Condition);
+		Create HUD Text(Event Player, Custom String("Passive:"), Null, Custom String("See recently hurt players"), Left, 0, Color(White),
+			Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD1 = Last Text ID;
+		Create HUD Text(Event Player, Custom String("Wraith Form:"), Null, Custom String("Go completely invisible"), Left, 1, Color(White),
+			Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD2 = Last Text ID;
+	}
 }
 
-rule ("Reaper Fade") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Reaper;
-    }
-    conditions {
-        Is Using Ability 1(Event Player) == True;
-    }
-    actions {
-        Set Invisible(Event Player, All);
-        Wait Until(Not(Is Using Ability 1(Event Player)), 3);
-        Wait(1, Ignore Condition);
-        Set Invisible(Event Player, None);
-    }
+rule("Reaper Pa﻿ssive")
+{
+	event
+	{
+		Player Took Damage;
+		All;
+		All;
+	}
+
+	actions
+	{
+		Start Forcing Player Outlines(Event Player, Players On Hero(Hero(Reaper), Opposite Team Of(Team Of(Event Player))), True, Color(
+			Red), Always);
+		Wait(5, Ignore Condition);
+		Stop Forcing Player Outlines(Event Player, Players On Hero(Hero(Reaper), Opposite Team Of(Team Of(Event Player))));
+	}
 }
 
-rule ("sojourn huids") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Sojourn;
-    }
-    actions {
-        Wait(0.25, Ignore Condition);
-        Create HUD Text(Event Player, Custom String("Railgun:", Null, Null, Null), Null, Custom String("Railgun make an explosion", Null, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD1, Last Text ID);
-        Create HUD Text(Event Player, Custom String("Power Slide:", Null, Null, Null), Null, Custom String("Damage people around you", Null, Null, Null), Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD2, Last Text ID);
-    }
+rule("Reaper Fade")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Reaper;
+	}
+
+	conditions
+	{
+		Is Using Ability 1(Event Player) == True;
+	}
+
+	actions
+	{
+		Set Invisible(Event Player, All);
+		Wait Until(!Is Using Ability 1(Event Player), 3);
+		Wait(1, Ignore Condition);
+		Set Invisible(Event Player, None);
+	}
 }
 
-rule ("Soj rail boom") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Sojourn;
-    }
-    conditions {
-        Is Firing Secondary(Event Player) == True;
-    }
-    actions {
-        Damage(Players Within Radius(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 999)), All Players(Opposite Team Of(Team Of(Event Player))), Event Player, True), 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player, 50);
-        Create Effect(All Players(All Teams), Sphere, Team Of(Event Player), Ray Cast Hit Position(Eye Position(Event Player), Add(Multiply(Facing Direction Of(Event Player), 999), Eye Position(Event Player)), All Players(Opposite Team Of(Team Of(Event Player))), Event Player, True), 5, None);
-        Wait(0.25, Ignore Condition);
-        Destroy Effect(Last Created Entity);
-    }
+rule("sojourn huids")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Sojourn;
+	}
+
+	actions
+	{
+		Wait(0.250, Ignore Condition);
+		Create HUD Text(Event Player, Custom String("Railgun:"), Null, Custom String("Railgun make an explosion"), Left, 0, Color(White),
+			Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD1 = Last Text ID;
+		Create HUD Text(Event Player, Custom String("Power Slide:"), Null, Custom String("Damage people around you"), Left, 1, Color(
+			White), Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD2 = Last Text ID;
+	}
 }
 
-rule ("Soljurn Slide") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Sojourn;
-    }
-    conditions {
-        Is Using Ability 1(Event Player) == True;
-    }
-    actions {
-        Damage(Players Within Radius(Event Player, 10, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player, 75);
-        Wait(0.25, Ignore Condition);
-        Loop If Condition Is True;
-    }
+rule("Soj rail boom")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Sojourn;
+	}
+
+	conditions
+	{
+		Is Firing Secondary(Event Player) == True;
+	}
+
+	actions
+	{
+		Damage(Players Within Radius(Ray Cast Hit Position(Eye Position(Event Player), Eye Position(Event Player) + Facing Direction Of(
+			Event Player) * 999, All Players(Opposite Team Of(Team Of(Event Player))), Event Player, True), 5, Opposite Team Of(Team Of(
+			Event Player)), Surfaces And Enemy Barriers), Event Player, 50);
+		Create Effect(All Players(All Teams), Sphere, Team Of(Event Player), Ray Cast Hit Position(Eye Position(Event Player),
+			Facing Direction Of(Event Player) * 999 + Eye Position(Event Player), All Players(Opposite Team Of(Team Of(Event Player))),
+			Event Player, True), 5, None);
+		Wait(0.250, Ignore Condition);
+		Destroy Effect(Last Created Entity);
+	}
 }
 
-rule ("Orisa huds") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Orisa;
-    }
-    actions {
-        Wait(0.25, Ignore Condition);
-        Create HUD Text(Event Player, Custom String("Energy Javelin:", Null, Null, Null), Null, Custom String("Burns hit enemy if they are more than 20m away", Null, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD2, Last Text ID);
-        Create HUD Text(Event Player, Custom String("Fortify:", Null, Null, Null), Null, Custom String("Cant move but do increased damage", Null, Null, Null), Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD1, Last Text ID);
-    }
+rule("Soljurn Slide")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Sojourn;
+	}
+
+	conditions
+	{
+		Is Using Ability 1(Event Player) == True;
+	}
+
+	actions
+	{
+		Damage(Players Within Radius(Event Player, 10, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player,
+			25);
+		Wait(0.250, Ignore Condition);
+		Loop If Condition Is True;
+	}
 }
 
-rule ("Orisa Fortify") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Orisa;
-    }
-    conditions {
-        Is Using Ability 1(Event Player) == True;
-    }
-    actions {
-        Start Forcing Player Position(Event Player, Position Of(Event Player), False);
-        Set Damage Dealt(Event Player, 150);
-        Wait Until(Not(Is Using Ability 1(Event Player)), 10);
-        Stop Forcing Player Position(Event Player);
-        Set Damage Dealt(Event Player, 100);
-    }
+rule("Orisa huds")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Orisa;
+	}
+
+	actions
+	{
+		Wait(0.250, Ignore Condition);
+		Create HUD Text(Event Player, Custom String("Energy Javelin:"), Null, Custom String(
+			"Burns hit enemy if they are more than 10m away"), Left, 0, Color(White), Color(White), Color(White), Visible To and String,
+			Default Visibility);
+		Event Player.HUD2 = Last Text ID;
+		Create HUD Text(Event Player, Custom String("Fortify:"), Null, Custom String("Cant move but do increased damage"), Left, 1, Color(
+			White), Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD1 = Last Text ID;
+	}
 }
 
-rule ("orisa spear") {
-    event {
-        Player Dealt Damage;
-        All;
-        Orisa;
-    }
-    conditions {
-        Event Ability == Button(Secondary Fire);
-        Distance Between(Position Of(Event Player), Position Of(Victim)) >= 28.284;
-    }
-    actions {
-        Set Status(Victim, Event Player, Burning, 5);
-        Start Damage Over Time(Victim, Event Player, 5, 10);
-    }
+rule("Orisa Fortify")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Orisa;
+	}
+
+	conditions
+	{
+		Is Using Ability 1(Event Player) == True;
+	}
+
+	actions
+	{
+		Start Forcing Player Position(Event Player, Position Of(Event Player), False);
+		Set Damage Dealt(Event Player, 150);
+		Wait Until(!Is Using Ability 1(Event Player), 10);
+		Stop Forcing Player Position(Event Player);
+		Set Damage Dealt(Event Player, 100);
+	}
 }
 
-rule ("Ashe Huds") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Ashe;
-    }
-    actions {
-        Wait(0.25, Ignore Condition);
-        Create HUD Text(Event Player, Custom String("Passive:", Null, Null, Null), Custom String("Type: {0}", (Event Player).Var1, Null, Null), Custom String("Press interact to change primary fire type", Null, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD1, Last Text ID);
-        Set Player Variable(Event Player, Var1, Custom String("normal", Null, Null, Null));
-        Create HUD Text(Event Player, Custom String("Secondary Fire:", Null, Null, Null), Null, Custom String("Increases damage the more you aim", Null, Null, Null), Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD1, Last Text ID);
-    }
+rule("orisa spear")
+{
+	event
+	{
+		Player Dealt Damage;
+		All;
+		Orisa;
+	}
+
+	conditions
+	{
+		Event Ability == Button(Secondary Fire);
+		Distance Between(Position Of(Event Player), Position Of(Victim)) >= 10;
+	}
+
+	actions
+	{
+		Set Status(Victim, Event Player, Burning, 5);
+		Start Damage Over Time(Victim, Event Player, 5, 10);
+	}
 }
 
-rule ("Ashe interact") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Ashe;
-    }
-    conditions {
-        Is Button Held(Event Player, Button(Interact)) == True;
-    }
-    actions {
-        If(Compare((Event Player).Var1, ==, Custom String("fire", Null, Null, Null)));
-            Set Player Variable(Event Player, Var1, Custom String("normal", Null, Null, Null));
-        Else If(Compare((Event Player).Var1, ==, Custom String("normal", Null, Null, Null)));
-            Set Player Variable(Event Player, Var1, Custom String("fire", Null, Null, Null));
-    }
+rule("Ashe Huds")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Ashe;
+	}
+
+	actions
+	{
+		Wait(0.250, Ignore Condition);
+		Create HUD Text(Event Player, Custom String("Passive:"), Custom String("Type: {0}", Event Player.Var1), Custom String(
+			"Press interact to change primary fire type"), Left, 0, Color(White), Color(White), Color(White), Visible To and String,
+			Default Visibility);
+		Event Player.HUD1 = Last Text ID;
+		Event Player.Var1 = Custom String("normal");
+		Create HUD Text(Event Player, Custom String("Secondary Fire:"), Null, Custom String("Increases damage the more you aim"), Left, 1,
+			Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD2 = Last Text ID;
+	}
 }
 
-rule ("Ashe Primary") {
-    event {
-        Player Dealt Damage;
-        All;
-        Ashe;
-    }
-    conditions {
-        Event Ability == Button(Primary Fire);
-    }
-    actions {
-        If(Compare((Event Player).Var1, ==, Custom String("fire", Null, Null, Null)));
-            Set Status(Victim, Event Player, Burning, 5);
-            Start Damage Over Time(Victim, Event Player, 5, 10);
-        Else;
-            Damage(Victim, Event Player, 60);
-    }
+rule("Ashe interact")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Ashe;
+	}
+
+	conditions
+	{
+		Is Button Held(Event Player, Button(Interact)) == True;
+	}
+
+	actions
+	{
+		If(Event Player.Var1 == Custom String("fire"));
+			Event Player.Var1 = Custom String("normal");
+		Else If(Event Player.Var1 == Custom String("normal"));
+			Event Player.Var1 = Custom String("fire");
+	}
 }
 
-rule ("ashe secondary") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Ashe;
-    }
-    conditions {
-        Is Button Held(Event Player, Button(Secondary Fire)) == True;
-    }
-    actions {
-        Create HUD Text(Event Player, Null, Custom String("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n      Damage Increase: {0}", (Event Player).B, Null, Null), Null, Top, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, HUD7, Last Text ID);
-        Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 99999);
-        Destroy HUD Text((Event Player).HUD7);
-    }
+rule("Ashe Primary")
+{
+	event
+	{
+		Player Dealt Damage;
+		All;
+		Ashe;
+	}
+
+	conditions
+	{
+		Event Ability == Button(Primary Fire);
+	}
+
+	actions
+	{
+		If(Event Player.Var1 == Custom String("fire"));
+			Set Status(Victim, Event Player, Burning, 5);
+			Start Damage Over Time(Victim, Event Player, 5, 10);
+		Else;
+			Damage(Victim, Event Player, 25);
+	}
 }
 
-rule ("ashe secondary primary fire") {
-    event {
-        Player Dealt Damage;
-        All;
-        Ashe;
-    }
-    conditions {
-        Is Button Held(Event Player, Button(Secondary Fire)) == True;
-        Event Ability == Button(Primary Fire);
-    }
-    actions {
-        Damage(Victim, Event Player, (Event Player).B);
-        Set Player Variable(Event Player, B, 0);
-        Create Beam Effect(All Players(All Teams), Bad Beam, Event Player, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 999)), All Players(Opposite Team Of(Team Of(Event Player))), Event Player, True), Team Of(Event Player), Visible To and Color);
-        Set Player Variable(Event Player, C, Last Created Entity);
-        Wait(0.1, Ignore Condition);
-        Destroy Effect((Event Player).C);
-    }
+rule("ashe secondary")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Ashe;
+	}
+
+	conditions
+	{
+		Is Button Held(Event Player, Button(Secondary Fire)) == True;
+	}
+
+	actions
+	{
+		Create HUD Text(Event Player, Null, Custom String("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n      Damage Increase: {0}", Event Player.B),
+			Null, Top, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+		Event Player.HUD7 = Last Text ID;
+		Wait Until(!Is Button Held(Event Player, Button(Secondary Fire)), 99999);
+		Destroy HUD Text(Event Player.HUD7);
+	}
 }
 
-rule ("ashe secondary fire primary fire 2") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Ashe;
-    }
-    conditions {
-        Is Firing Primary(Event Player) == True;
-        Is Button Held(Event Player, Button(Secondary Fire)) == True;
-    }
-    actions {
-        Set Player Variable(Event Player, B, 0);
-        Create Beam Effect(All Players(All Teams), Bad Beam, Event Player, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 999)), All Players(Opposite Team Of(Team Of(Event Player))), Event Player, True), Team Of(Event Player), Visible To and Color);
-        Set Player Variable(Event Player, D, Last Created Entity);
-        Wait(0.1, Ignore Condition);
-        Destroy Effect((Event Player).D);
-    }
+rule("ashe secondary primary fire")
+{
+	event
+	{
+		Player Dealt Damage;
+		All;
+		Ashe;
+	}
+
+	conditions
+	{
+		Is Button Held(Event Player, Button(Secondary Fire)) == True;
+		Event Ability == Button(Primary Fire);
+	}
+
+	actions
+	{
+		Damage(Victim, Event Player, Event Player.B);
+		Event Player.B = 0;
+		Create Beam Effect(All Players(All Teams), Bad Beam, Event Player, Ray Cast Hit Position(Eye Position(Event Player), Eye Position(
+			Event Player) + Facing Direction Of(Event Player) * 999, All Players(Opposite Team Of(Team Of(Event Player))), Event Player,
+			True), Team Of(Event Player), Visible To and Color);
+		Event Player.C = Last Created Entity;
+		Wait(0.100, Ignore Condition);
+		Destroy Effect(Event Player.C);
+	}
 }
 
-rule ("ashe secondary 34343434353") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Ashe;
-    }
-    conditions {
-        Is Button Held(Event Player, Button(Secondary Fire)) == True;
-    }
-    actions {
-        Wait(1, Abort When False);
-        Chase Player Variable At Rate(Event Player, B, 100, 5, Destination and Rate);
-        Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 99999);
-        Stop Chasing Player Variable(Event Player, B);
-    }
+rule("ashe secondary fire primary fire 2")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Ashe;
+	}
+
+	conditions
+	{
+		Is Firing Primary(Event Player) == True;
+		Is Button Held(Event Player, Button(Secondary Fire)) == True;
+	}
+
+	actions
+	{
+		Event Player.B = 0;
+		Create Beam Effect(All Players(All Teams), Bad Beam, Event Player, Ray Cast Hit Position(Eye Position(Event Player), Eye Position(
+			Event Player) + Facing Direction Of(Event Player) * 999, All Players(Opposite Team Of(Team Of(Event Player))), Event Player,
+			True), Team Of(Event Player), Visible To and Color);
+		Event Player.D = Last Created Entity;
+		Wait(0.100, Ignore Condition);
+		Destroy Effect(Event Player.D);
+	}
 }
 
+rule("ashe secondary 34343434353")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		Ashe;
+	}
+
+	conditions
+	{
+		Is Button Held(Event Player, Button(Secondary Fire)) == True;
+	}
+
+	actions
+	{
+		Wait(1, Abort When False);
+		Chase Player Variable At Rate(Event Player, B, 100, 5, Destination and Rate);
+		Wait Until(!Is Button Held(Event Player, Button(Secondary Fire)), 99999);
+		Stop Chasing Player Variable(Event Player, B);
+	}
+}
