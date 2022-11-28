@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Discord= https://discord.gg/7jJ9FCfN | Code = MG2TN | Made by = iiAzui#1411/Its_Jpg#9929"
+		Description: "Discord= https://discord.gg/7jJ9FCfN | Code =  | Made by = iiAzui#1411/Its_Jpg#9929"
 		Mode Name: "Odd Heros"
 	}
 	lobby
@@ -588,4 +588,39 @@ rule ("mercy resurect") {
         Destroy Effect((Event Player).B);
     }
 }
-
+rule ("mercy death") {
+    event {
+        Player Died;
+        All;
+        Mercy;
+    }
+    conditions {
+       Player Variable(Event Player,D) == 0;
+    }
+    actions {
+        Set Player Variable(Event Player, D, 60);
+        Destroy Effect(Player Variable(Event Player,E))
+        Create Effect(All Players,Sparkles,Team Of(Event Player),Event Player,5,Position And Radius)
+        Set Player Variable(Event Player,E,Last Created Entity)
+        Set Status(Event Player,Null,Knocked Down,3)
+        Set Max Health(Event Player,25)
+        Wait(3,Ignore Condition)
+        Set Max Health(Event Player,100)
+        Chase Player Variable Over Time(Event Player,D,0,60)
+        Destroy Effect(Player Variable(Event Player,E))
+    }
+}
+rule ("mercy var") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Mercy;
+    }
+    conditions {
+       Player Variable(Event Player,D) == 0;
+    }
+    actions {
+        Create Effect(Event Player,Sparkles,Yellow,Event Player,1,Position And Radius)
+        Set Player Variable(Event Player,E,Last Created Entity)
+    }
+}
