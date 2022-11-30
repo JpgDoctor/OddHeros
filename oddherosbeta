@@ -38,6 +38,7 @@ settings
 				Orisa
 				Reaper
 				Sojourn
+                Mercy
 			}
 		}
 	}
@@ -564,6 +565,13 @@ rule ("Mercy: Huds") {
         All;
         Mercy;
     }
+    actions {
+        Wait(0.25, Ignore Condition);
+        Create HUD Text(Event Player, Custom String("On Death: {0}", Player Variable(Event Player,D), Null, Null), Custom String("Cooldown:", Null, Null, Null), Custom String("If ability is ready you will be knocked down for a few seconds instead of dying", Null, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+        Set Player Variable(Event Player, HUD1, Last Text ID);
+        Create HUD Text(Event Player, Custom String("Resurect:", Null, Null, Null), Null, Custom String("Creates a explosion around you", Null, Null, Null), Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+        Set Player Variable(Event Player, HUD2, Last Text ID);
+    }
 }
 
 rule ("mercy resurect") {
@@ -588,6 +596,7 @@ rule ("mercy resurect") {
         Destroy Effect((Event Player).B);
     }
 }
+
 rule ("mercy death") {
     event {
         Player Died;
@@ -610,6 +619,7 @@ rule ("mercy death") {
         Destroy Effect(Player Variable(Event Player,E))
     }
 }
+
 rule ("mercy var") {
     event {
         Ongoing - Each Player;
@@ -624,3 +634,4 @@ rule ("mercy var") {
         Set Player Variable(Event Player,E,Last Created Entity)
     }
 }
+
