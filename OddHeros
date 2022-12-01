@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Discord= https://discord.gg/7jJ9FCfN | Code = MG2TN | Made by = iiAzui#1411/Its_Jpg#9929"
+		Description: "Discord= https://discord.gg/7jJ9FCfN | Code =  | Made by = iiAzui#1411/Its_Jpg#9929"
 		Mode Name: "Odd Heros"
 	}
 	lobby
@@ -34,7 +34,9 @@ settings
 			enabled heroes
 			{
 				Ashe
+				Doomfist
 				Kiriko
+				Mercy
 				Orisa
 				Reaper
 				Sojourn
@@ -45,6 +47,7 @@ settings
 variables {
     global:
         0: A
+        1: __currentMap__
         3: D
         5: F
     player:
@@ -52,6 +55,7 @@ variables {
         1: B
         2: C
         3: D
+        4: E
         6: G
         7: HUD1
         8: HUD2
@@ -62,12 +66,56 @@ variables {
         13: HUD7
         14: herochange
 }
+
+rule("OverPy Map Detection") {
+	event {
+		Ongoing - Global;
+	}
+	actions {
+		If(Array Contains(Array(Map(Ayutthaya), Map(Black Forest), Map(Black Forest Winter), Map(Blizzard World), Map(Blizzard World Winter), Map(Busan), Map(Busan Downtown Lunar New Year), Map(Busan Sanctuary Lunar New Year), Map(Castillo), Map(Château Guillard), Map(Château Guillard Halloween), Map(Circuit Royal), Map(Colosseo), Map(Dorado), Map(Ecopoint: Antarctica), Map(Eichenwalde), Map(Eichenwalde Halloween), Map(Esperança), Map(Hanamura), Map(Hanamura Winter), Map(Havana), Map(Hollywood), Map(Horizon Lunar Colony), Map(Ilios), Map(Ilios Lighthouse), Map(Ilios Ruins), Map(Ilios Well), Map(Junkenstein's Revenge), Map(Junkertown), Map(Kanezaka), Map(King's Row), Map(King's Row Winter), Map(Lijiang Control Center), Map(Lijiang Control Center Lunar New Year), Map(Lijiang Garden), Map(Lijiang Garden Lunar New Year), Map(Lijiang Night Market), Map(Lijiang Night Market Lunar New Year), Map(Lijiang Tower), Map(Lijiang Tower Lunar New Year), Map(Malevento), Map(Midtown), Map(Necropolis), Map(Nepal), Map(Nepal Sanctum), Map(Nepal Shrine), Map(Nepal Village), Map(New Queen Street), Map(Numbani), Map(Oasis), Map(Oasis City Center), Map(Oasis Gardens), Map(Oasis University), Map(Paraíso), Map(Paris), Map(Petra), Map(Practice Range), Map(Rialto), Map(Route 66), Map(Temple of Anubis), Map(Volskaya Industries), Map(Watchpoint: Gibraltar), Map(Workshop Chamber), Map(Workshop Expanse), Map(Workshop Expanse Night), Map(Workshop Green Screen), Map(Workshop Island), Map(Workshop Island Night)), Current Map));
+			Global.__currentMap__ = Current Map;
+			Abort;
+		End;
+		Global.__currentMap__ = Ray Cast Hit Position(Vector(500, 100, 500), Vector(-500, -100, -500), Null, Null, False);
+		If(Global.__currentMap__ == Vector(0, 0, 0) || Global.__currentMap__ == Vector(-500, -100, -500));
+			Global.__currentMap__ = Ray Cast Hit Position(Vector(30, 5, 0), Vector(-30, -10, -10), Null, Null, False);
+			If(Global.__currentMap__ == Vector(-30, -10, -10));
+				Global.__currentMap__ = Ray Cast Hit Position(Vector(200, 20, 100), Vector(100, -100, -100), Null, Null, False);
+				If(Global.__currentMap__ == Vector(100, -100, -100));
+					Global.__currentMap__ = Ray Cast Hit Position(Vector(300, 20, -100), Vector(300, -100, 100), Null, Null, False);
+					If(Global.__currentMap__ == Vector(300, -100, 100));
+						Global.__currentMap__ = Ray Cast Hit Position(Vector(50, 100, -150), Vector(-50, -100, -160), Null, Null, False);
+						If(Global.__currentMap__ == Vector(-50, -100, -160));
+							Global.__currentMap__ = Ray Cast Hit Position(Vector(0, 300, 340), Vector(0, -100, -300), Null, Null, False);
+							If(Global.__currentMap__ == Vector(0, -100, -300));
+								Global.__currentMap__ = Ray Cast Hit Position(Vector(140, 10, -240), Vector(200, -10, -300), Null, Null, False);
+								If(Global.__currentMap__ == Vector(200, -10, -300));
+									Global.__currentMap__ = Ray Cast Hit Position(Vector(-180, 30, 60), Vector(-180, -50, -60), Null, Null, False);
+								End;
+							End;
+						End;
+					End;
+				End;
+			End;
+		End;
+		Global.__currentMap__ = 100 * Round To Integer(Y Component Of(Global.__currentMap__), Up) + 10 * Round To Integer(X Component Of(Global.__currentMap__),
+			To Nearest) + Round To Integer(Z Component Of(Global.__currentMap__), Down);
+		If(Global.__currentMap__ == 10121);
+			Global.__currentMap__ = Ray Cast Hit Position(Vector(-60, 20, -60), Vector(60, -10, 60), Null, Null, False);
+			If(Global.__currentMap__ == Vector(60, -10, 60));
+				Global.__currentMap__ = Ray Cast Hit Position(Vector(-180, -70, 60), Vector(-180, -100, -60), Null, Null, False);
+			End;
+			Global.__currentMap__ = 100 * Round To Integer(Y Component Of(Global.__currentMap__), Up) + 10 * Round To Integer(X Component Of(Global.__currentMap__),
+				To Nearest) + Round To Integer(Z Component Of(Global.__currentMap__), Down);
+		End;
+	}
+}
 rule ("OverPy Map Detection") {
     event {
         Ongoing - Global;
     }
     actions {
-        If(Array Contains(Array(Map(Ayutthaya), Map(Black Forest), 2148, Map(Blizzard World), 1228, Map(Busan), 3206, -6860, Map(Castillo), Map(Château Guillard), 3439, Map(Circuit Royal), Map(Colosseo), Map(Dorado), Map(Ecopoint: Antarctica), Map(Eichenwalde), 565, Map(Esperança), Map(Hanamura), 1848, Map(Havana), Map(Hollywood), Map(Horizon Lunar Colony), Map(Ilios), 1459, 8669, -2957, Map(Junkenstein's Revenge), Map(Junkertown), Map(Kanezaka), Map(King's Row), 742, Map(Lijiang Control Center), 28714, Map(Lijiang Garden), 4714, Map(Lijiang Night Market), -1429, Map(Lijiang Tower), 3676, Map(Malevento), Map(Midtown), Map(Necropolis), Map(Nepal), -11860, 1362, -9677, Map(New Queen Street), Map(Numbani), Map(Oasis), 6920, 2159, 345, Map(Paraíso), Map(Paris), Map(Petra), Map(Practice Range), Map(Rialto), Map(Route 66), Map(Temple of Anubis), Map(Volskaya Industries), Map(Watchpoint: Gibraltar), Map(Workshop Chamber), Map(Workshop Expanse), 96, Map(Workshop Green Screen), Map(Workshop Island), 196), Global.F));
+        If(Array Contains(Array(Map(Ayutthaya), Map(Black Forest), 2148, Map(Blizzard World), 1228, Map(Busan), 3206, -6860, Map(Castillo), Map(Château Guillard), 3439, Map(Circuit Royal), Map(Colosseo), Map(Dorado), Map(Ecopoint: Antarctica), Map(Eichenwalde), 565, Map(Esperança), Map(Hanamura), 1848, Map(Havana), Map(Hollywood), Map(Horizon Lunar Colony), Map(Ilios), 1459, 8669, -2957, Map(Junkenstein's Revenge), Map(Junkertown), Map(Kanezaka), Map(King's Row), 742, Map(Lijiang Control Center), 28714, Map(Lijiang Garden), 4714, Map(Lijiang Night Market), -1429, Map(Lijiang Tower), 3676, Map(Malevento), Map(Midtown), Map(Necropolis), Map(Nepal), -11860, 1362, -9677, Map(New Queen Street), Map(Numbani), Map(Oasis), 6920, 2159, 345, Map(Paraíso), Map(Paris), Map(Petra), Map(Practice Range), Map(Rialto), Map(Route 66), Map(Temple of Anubis), Map(Volskaya Industries), Map(Watchpoint: Gibraltar), Map(Workshop Chamber), Map(Workshop Expanse), 96, Map(Workshop Green Screen), Map(Workshop Island), 196), Global.D));
             Set Global Variable(D, Global.F);
             Abort;
         End;
@@ -165,26 +213,26 @@ rule ("maps") {
         Ongoing - Global;
     }
     actions {
-        If(Compare(Global.D, ==, Map(Blizzard World)));
+        If(Compare(Global.__currentMap__, ==, Map(Blizzard World)));
             Set Global Variable(A, Vector(-51, 57, 92));
-        Else If(Compare(Global.D, ==, 1228));
+        Else If(Compare(Global.__currentMap__, ==, 1228));
             Set Global Variable(A, Vector(-51, 57, 92));
-        Else If(Compare(Global.D, ==, Map(Castillo)));
+        Else If(Compare(Global.__currentMap__, ==, Map(Castillo)));
             Set Global Variable(A, Vector(-102, 80, 58));
-        Else If(Compare(Global.D, ==, Map(Eichenwalde)));
+        Else If(Compare(Global.__currentMap__, ==, Map(Eichenwalde)));
             Set Global Variable(A, Vector(64, 48, -76));
-        Else If(Compare(Global.D, ==, 565));
+        Else If(Compare(Global.__currentMap__, ==, 565));
             Set Global Variable(A, Vector(64, 48, -76));
-        Else If(Compare(Global.D, ==, Map(Château Guillard)));
+        Else If(Compare(Global.__currentMap__, ==, Map(Château Guillard)));
             Set Global Variable(A, Vector(194, 90, 80));
-        Else If(Compare(Global.D, ==, 3439));
+        Else If(Compare(Global.__currentMap__, ==, 3439));
             Set Global Variable(A, Vector(194, 90, 80));
         Else;
             Set Global Variable(A, Vector(0, 50, 0));
     }
 }
 
-rule ("dummy bot maker") {
+disabled rule ("dummy bot maker") {
     event {
         Ongoing - Each Player;
         All;
@@ -195,6 +243,8 @@ rule ("dummy bot maker") {
     }
     actions {
         Create Dummy Bot(Hero(Mercy), Opposite Team Of(Team Of(Event Player)), -1, Event Player, Event Player);
+        Create Dummy Bot(Hero(Tracer), Team Of(Event Player), -1, Event Player, Event Player);
+        Damage(All Players(All Teams), Null, 150);
     }
 }
 
@@ -375,7 +425,7 @@ rule ("Soljurn Slide") {
         Is Using Ability 1(Event Player) == True;
     }
     actions {
-        Damage(Players Within Radius(Event Player, 10, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player, 25);
+        Damage(Players Within Radius(Event Player, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player, 25);
         Wait(0.25, Ignore Condition);
         Loop If Condition Is True;
     }
@@ -536,7 +586,8 @@ rule ("ashe secondary fire primary fire 2") {
         Set Player Variable(Event Player, B, 0);
         Create Beam Effect(All Players(All Teams), Bad Beam, Event Player, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 999)), All Players(Opposite Team Of(Team Of(Event Player))), Event Player, True), Team Of(Event Player), Visible To and Color);
         Set Player Variable(Event Player, D, Last Created Entity);
-        Wait(0.25, Ignore Condition);
+        Wait(0.15, Ignore Condition);
+        Destroy Effect(Last Created Entity);
         Destroy Effect((Event Player).D);
     }
 }
@@ -555,6 +606,133 @@ rule ("ashe secondary 34343434353") {
         Chase Player Variable At Rate(Event Player, B, 100, 5, Destination and Rate);
         Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 99999);
         Stop Chasing Player Variable(Event Player, B);
+    }
+}
+
+rule ("Mercy: Huds") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Mercy;
+    }
+    actions {
+        Wait(0.25, Ignore Condition);
+        Create HUD Text(Event Player, Custom String("On Death:", Null, Null, Null), Custom String("Cooldown: {0}", (Event Player).D, Null, Null), Custom String("If ability is ready you will be knocked down for a few seconds instead of dying", Null, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+        Set Player Variable(Event Player, HUD1, Last Text ID);
+        Create HUD Text(Event Player, Custom String("Resurect:", Null, Null, Null), Null, Custom String("Creates a explosion around you", Null, Null, Null), Left, 1, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+        Set Player Variable(Event Player, HUD2, Last Text ID);
+        Set Player Variable(Event Player, D, 0);
+    }
+}
+
+rule ("mercy resurect") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Mercy;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, C, 0);
+        Chase Player Variable Over Time(Event Player, C, 5, 3, Destination and Duration);
+        Create Effect(All Players(All Teams), Sphere, Team Of(Event Player), Position Of(Event Player), 4, Visible To Position and Radius);
+        Set Player Variable(Event Player, Var1, Last Created Entity);
+        Create Effect(All Players(All Teams), Sphere, Color(White), Position Of(Event Player), (Event Player).C, Visible To Position and Radius);
+        Set Player Variable(Event Player, B, Last Created Entity);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 5);
+        Destroy Effect((Event Player).Var1);
+        Damage(Players Within Radius(Event Player, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player, 100);
+        Destroy Effect((Event Player).B);
+    }
+}
+
+rule ("mercy death") {
+    event {
+        Player Died;
+        All;
+        Mercy;
+    }
+    conditions {
+        (Event Player).D == 0;
+    }
+    actions {
+        Set Player Variable(Event Player, D, 60);
+        Resurrect(Event Player);
+        Set Status(Event Player, Null, Knocked Down, 3);
+        Set Max Health(Event Player, 25);
+        Destroy Effect((Event Player).E);
+        Wait(3, Ignore Condition);
+        Set Max Health(Event Player, 100);
+        Chase Player Variable Over Time(Event Player, D, 0, 60, Destination and Duration);
+    }
+}
+
+rule ("mercy var") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Mercy;
+    }
+    conditions {
+        (Event Player).D == 0;
+    }
+    actions {
+        Create Effect(Event Player, Sparkles, Color(Yellow), Event Player, 1, Position and Radius);
+        Set Player Variable(Event Player, E, Last Created Entity);
+    }
+}
+
+rule ("Mercy death fix") {
+    event {
+        Player Died;
+        All;
+        Mercy;
+    }
+    actions {
+        Set Max Health(Event Player, 100);
+    }
+}
+
+rule ("Doom huds") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    actions {
+        Wait(0.25, Ignore Condition);
+        Create HUD Text(Event Player, Custom String("Passive:", Null, Null, Null), Null, Custom String("Getting a kill refreshes all cooldowns", Null, Null, Null), Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
+        Set Player Variable(Event Player, HUD1, Last Text ID);
+    }
+}
+
+rule ("Doom Cooldo﻿wns") {
+    event {
+        Player Earned Elimination;
+        All;
+        Doomfist;
+    }
+    actions {
+        Wait(0.5, Ignore Condition);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+        Set Ability Cooldown(Event Player, Button(Ability 2), 0);
+        Set Ability Cooldown(Event Player, Button(Secondary Fire), 0);
+    }
+}
+
+rule ("cords") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Host Player == Event Player;
+    }
+    actions {
+        Create HUD Text(Event Player, Custom String("{0}", Position Of(Event Player), Null, Null), Null, Null, Left, 0, Color(White), Color(White), Color(White), Visible To and String, Default Visibility);
     }
 }
 
